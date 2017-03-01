@@ -7,6 +7,8 @@ Puppet::Type.newtype(:iis_application_pool) do
   @doc = "Manage an IIS application pool."
   # https://www.iis.net/configreference/system.applicationhost/applicationpools/applicationpooldefaults?showTreeNavigation=true
 
+  feature :idle_timeout_action, "The ability to perform an action on idle timeout"
+
   newproperty(:ensure) do
     desc "Specifies whether an application pool should be present or absent. If `state` is
       not specified, the application pool will be created and left in the default started state."
@@ -191,7 +193,7 @@ Puppet::Type.newtype(:iis_application_pool) do
           should request that it be shut down by the WWW service."
   end
 
-  newproperty(:idle_timeout_action) do
+  newproperty(:idle_timeout_action, :required_features => :idle_timeout_action) do
     desc "Specifies the action to perform when the idle timeout duration has been reached. Before IIS 8.5,
           a worker process that was idle for the duration of the idleTimeout attribute would be terminated.
           After IIS 8.5, you have the choice of terminating a worker process that reaches the idleTimeout limit,
